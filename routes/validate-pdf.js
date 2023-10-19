@@ -18,16 +18,24 @@ const upload = multer({
 })
 
 /**
- * @openapi
+ * @swagger
  * /validate-pdf:
  *  post:
  *      summary: Validate PDF file
  *      description: This API checks whether a PDF file uploaded contains a blank page or not
+ *      consumes:
+ *        - multipart/form-data
+ *      parameters:
+ *        - in: formData
+ *          name: pdf
+ *          type: file
+ *          description: The PDF file to upload.
+ *          required: true
  *      responses:
  *          200:
- *              description:PDF is valid
+ *             description: PDF is valid
  *          400:
- *              description:Invalid PDF file uploaded
+ *             description: Invalid PDF file uploaded
  *
  */
 router.post('/validate-pdf',upload.single('pdf'),async (req,res) =>{
@@ -43,9 +51,9 @@ router.post('/validate-pdf',upload.single('pdf'),async (req,res) =>{
 
         /*check if any pages are empty*/
 
-
         let blankPageCount = 0
-        const pageTexts = data.text; // Split text by 'Page ' to identify page breaks
+        const pageTexts = data.text
+        // Split text by 'Page ' to identify page breaks
         const splitContent =pageTexts.split('\n\n')
 
         //remove first element
@@ -61,7 +69,7 @@ router.post('/validate-pdf',upload.single('pdf'),async (req,res) =>{
 
 
         if(blankPageCount > 0){
-            res.status(400).json({error:`PDF is invalid, contains ${blankPageCount} blank page/s.`})
+            res.status(400).json({error:`PDF is invalid.`})
         }else{
             res.status(200).json({message:'PDF is valid'})
         }

@@ -5,7 +5,7 @@ const swaggerSpec = require('../swagger')
 const router = new express.Router()
 
 
-router.get('/api-docs',swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+router.use('/api-docs',swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 
 module.exports = router
