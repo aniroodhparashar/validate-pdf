@@ -4,9 +4,9 @@ const multer = require("multer");
 const router =new express.Router()
 
 const upload = multer({
-    limits:{
-        fileSize:1000000
-    },
+    // limits:{
+    //     // fileSize:1000000
+    // },
     fileFilter(req,file,cb){
         if(!file.originalname.match(/\.(pdf)$/)){
             return cb(new Error('Please upload a valid PDF file. '))
